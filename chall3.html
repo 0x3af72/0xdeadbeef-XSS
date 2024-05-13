@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+
+        .profile-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        .description-input {
+            width: 80%;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #292929;
+            color: #fff;
+        }
+
+        .description-input {
+            width: 40%; 
+        }
+
+        .description-input::placeholder {
+            color: #ccc;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img class="profile-picture" src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg" alt="Profile Picture">
+        <div class="username">xss_newbie</div>
+        <div class="description"></div>
+        <textarea class="description-input" rows="4" placeholder="Update your description..."></textarea>
+        <br>
+        <button class="submit-btn" onclick="updateDescription()">Submit</button>
+        <br><br>
+        <p>Note: Despite our previous filters, XSS was still possible!<br>
+        Now we are banning whitespaces, parentheses and quotes!
+        </p>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("chall3_description")) {
+            localStorage["chall3_description"] = "Welcome to my profile! I am a (kind of) newbie to XSS.";
+        }
+        document.querySelector(".description").innerHTML = localStorage["chall3_description"];
+        function updateDescription() {
+            localStorage["chall3_description"] = document.querySelector('.description-input').value;
+            let regex = new RegExp("[ \"'()]");
+            if (regex.test(localStorage["chall3_description"])) {
+                localStorage["chall3_description"] = "Attack detected!";
+            }
+            location.reload();
+        }
+    </script>
+</body>
+</html>
